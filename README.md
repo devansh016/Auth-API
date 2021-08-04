@@ -14,6 +14,9 @@ npm start
 ```sh
 JWT_SECRET = "ABCD" 
 MONGODB_URL = "ABCD"
+GOOGLE_CLIENT_ID = "ABCD"
+GOOGLE_CLIENT_SECRET = "ABCD"
+GOOGLE_REDIRECT_URL = "http://localhost/api/auth/google-authenticate"
 ```
 
 Your app should now be running on [localhost](http://localhost/) at port 80.
