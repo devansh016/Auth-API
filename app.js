@@ -14,12 +14,10 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(jwt());
 
-const userRoutes = require('./routes/user');
-const testRoutes = require('./routes/test');
+const authRoutes = require('./routes/authRoute');
 
-//Handling User Authentication
-app.use('/user', userRoutes);
-app.use('/', testRoutes);
+//Handling Routes
+app.use('/api/auth', authRoutes);
 
 //Handling Errors
 app.use(errorHandler);
