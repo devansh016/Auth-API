@@ -60,7 +60,23 @@ async function registerGoogleAccount(code) {
         };
     }
     else {
-        throw 'not found cannot creat user';
+        var passwordtemp = bcrypt.hashSync(googleData.tokens.access_token, 10);
+        var usernametemp = googleData.user.email.split("@")[0];
+        var userParam = {
+            email: googleData.user.email,
+            name: googleData.user.given_name + ' ' + googleData.user.family_name,
+            username: usernametemp,
+            password: passwordtemp
+        }
+        const NewUser = new User(userParam);
+        await NewUser.save();
+
+        const user = await User.findOne({ "email": googleEmail });
+        const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '86400s' });
+        return {
+            ...user.getUserData(),
+            token
+        };
     }
 }
 
