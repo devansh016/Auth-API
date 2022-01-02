@@ -3,7 +3,7 @@ const router = express.Router();
 const authController = require('../controllers/authController');
 const googleAPI = require('../util/google-api');
 
-router.post('/authenticate', authController.userVerification, authenticate);
+router.post('/authenticate', authenticate);
 router.post('/register', register);
 router.get('/google-authenticate', googleAuthenticate);
 router.get('/google-login', getGoogleAuthURL);
@@ -11,13 +11,7 @@ router.get('/google-login', getGoogleAuthURL);
 function authenticate(req, res, next) {
     authController.authenticate(req.body)
         .then(data => {
-        if(data){
-            res.cookie('token', data.token);
-            delete data.token;
-            res.send(data);
-        } else{
-            res.status(400).json({ message: 'Username or password is incorrect' });
-        }
+            res.send(data) 
         })
         .catch(err => next(err));
 }
@@ -25,19 +19,13 @@ function authenticate(req, res, next) {
 function register(req, res, next) {
     authController.register(req.body)
         .then(data => {
-        if(data){
-            res.cookie('token', data.token);
-            delete data.token;
-            res.send(data);
-        } else {
-            res.status(500).json({ message: 'Internal Server Error. Contact administrator' });
-        }
+            res.send(data)
         })
         .catch(err => next(err));
 }
 
 function googleAuthenticate(req, res, next){
-    authController.registerGoogleAccount(req.query.code)
+    authController.registerGoogleAccount( {"code": req.query.code} )
         .then(data => {
             res.cookie('token', data.token).send()
         })

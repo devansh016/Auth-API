@@ -2,10 +2,8 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-    username: { type: String, unique: true, required: true },
-    password: { type: String, required: true },
-    name: { type: String, required: true },
     email: { type: String, unique: true, required: true },
+    password: { type: String, required: true },
     createdDate: { type: Date, default: Date.now }
 });
 
@@ -17,7 +15,6 @@ userSchema.set('toJSON', {
         delete ret._id;
         delete ret.password;
         delete ret.createdDate;
-        delete ret.name;
     }
 });
 
